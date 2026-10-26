@@ -1,0 +1,14 @@
+{
+    "number_of_test_images": 550,
+    "test_loss": 0.127,
+    "accuracy": 94.0,
+    "precision": 0.9362,
+    "sensitivity": 0.9462,
+    "specificity": 0.9336,
+    "f1_score": 0.9412,
+    "roc_auc": 0.9913,
+    "true_negatives": 253,
+    "false_positives": 18,
+    "false_negatives": 15,
+    "true_positives": 264
+}
