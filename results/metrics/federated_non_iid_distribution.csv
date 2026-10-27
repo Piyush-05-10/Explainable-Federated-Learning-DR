@@ -1,0 +1,6 @@
+client,total_samples,no_dr_samples,dr_samples,no_dr_percentage,dr_percentage
+Clinic 1,513,406,107,79.14,20.86
+Clinic 2,513,330,183,64.33,35.67
+Clinic 3,513,253,260,49.32,50.68
+Clinic 4,512,175,337,34.18,65.82
+Clinic 5,512,99,413,19.34,80.66

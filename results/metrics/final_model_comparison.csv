@@ -1,0 +1,7 @@
+metric,centralized,fedavg_iid_5rounds,fedavg_non_iid_5rounds,fedprox_non_iid_5rounds
+Accuracy (%),94.0,91.09,91.82,92.18
+Precision,0.9362,0.9049,0.927,0.9245
+Sensitivity,0.9462,0.9211,0.9104,0.9211
+Specificity,0.9336,0.9004,0.9262,0.9225
+F1 Score,0.9412,0.913,0.9186,0.9228
+ROC-AUC,0.9913,0.9759,0.9739,0.9752

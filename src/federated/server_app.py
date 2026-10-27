@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from flwr.common import Context, ndarrays_to_parameters
 from flwr.server import ServerApp, ServerConfig, ServerAppComponents
-from flwr.server.strategy import FedAvg
+from flwr.server.strategy import FedAvg, FedProx
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -78,35 +78,64 @@ def get_evaluate_fn():
     return evaluate_fn
 
 
-def make_server_app(num_rounds: int):
+def make_server_app(num_rounds: int, partition_type: str = "iid", algorithm: str = "fedavg", mu: float = 0.0):
     """Factory to create a ServerApp with ServerConfig explicitly set to num_rounds."""
     num_rounds = int(num_rounds)
+    partition_type = str(partition_type)
+    algorithm = str(algorithm).lower()
+    mu = float(mu)
+    is_fedprox = (algorithm == "fedprox") or (mu > 0.0)
+    partition_label = "NON-IID" if partition_type.lower() in ["non_iid", "non-iid"] else "IID"
 
     def on_fit_config_fn(server_round: int):
         print(f"\n{'=' * 40}")
-        print(f"ROUND {server_round}/{num_rounds}")
+        if is_fedprox:
+            print(f"ROUND {server_round}/{num_rounds} - FEDPROX {partition_label}")
+        elif partition_label == "NON-IID":
+            print(f"ROUND {server_round}/{num_rounds} - NON-IID")
+        else:
+            print(f"ROUND {server_round}/{num_rounds}")
         print(f"{'=' * 40}")
         return {
             "server_round": server_round,
             "local_epochs": 1,
             "batch_size": 16,
+            "partition_type": partition_type,
+            "algorithm": "fedprox" if is_fedprox else "fedavg",
+            "proximal_mu": mu if is_fedprox else 0.0,
+            "mu": mu if is_fedprox else 0.0,
         }
 
     def server_fn(context: Context):
+        # Fresh ImageNet pretrained EfficientNet-B0 initialization
         initial_model = create_model(num_classes=2)
         initial_params = ndarrays_to_parameters(get_weights(initial_model))
 
-        strategy = FedAvg(
-            fraction_fit=1.0,
-            min_fit_clients=5,
-            min_available_clients=5,
-            fraction_evaluate=0.0,
-            min_evaluate_clients=0,
-            initial_parameters=initial_params,
-            on_fit_config_fn=on_fit_config_fn,
-            evaluate_fn=get_evaluate_fn(),
-            fit_metrics_aggregation_fn=fit_metrics_aggregation_fn,
-        )
+        if is_fedprox:
+            strategy = FedProx(
+                fraction_fit=1.0,
+                min_fit_clients=5,
+                min_available_clients=5,
+                fraction_evaluate=0.0,
+                min_evaluate_clients=0,
+                initial_parameters=initial_params,
+                on_fit_config_fn=on_fit_config_fn,
+                evaluate_fn=get_evaluate_fn(),
+                fit_metrics_aggregation_fn=fit_metrics_aggregation_fn,
+                proximal_mu=mu,
+            )
+        else:
+            strategy = FedAvg(
+                fraction_fit=1.0,
+                min_fit_clients=5,
+                min_available_clients=5,
+                fraction_evaluate=0.0,
+                min_evaluate_clients=0,
+                initial_parameters=initial_params,
+                on_fit_config_fn=on_fit_config_fn,
+                evaluate_fn=get_evaluate_fn(),
+                fit_metrics_aggregation_fn=fit_metrics_aggregation_fn,
+            )
 
         config = ServerConfig(num_rounds=num_rounds)
         return ServerAppComponents(strategy=strategy, config=config)
@@ -115,4 +144,4 @@ def make_server_app(num_rounds: int):
 
 
 # Default 3-round ServerApp for CLI / static usage
-app = make_server_app(3)
+app = make_server_app(3, "iid", "fedavg", 0.0)

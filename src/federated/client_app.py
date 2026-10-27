@@ -27,25 +27,55 @@ class FlowerClient(NumPyClient):
 
         local_epochs = int(config.get("local_epochs", 1))
         batch_size = int(config.get("batch_size", 16))
+        partition_type = str(config.get("partition_type", "iid"))
 
-        train_loader = load_client_data(self.partition_id, batch_size=batch_size)
+        train_loader = load_client_data(self.partition_id, batch_size=batch_size, partition_type=partition_type)
         num_samples = len(train_loader.dataset)
+        df = train_loader.dataset.df
+        no_dr_count = int((df["binary_label"] == 0).sum())
+        dr_count = int((df["binary_label"] == 1).sum())
 
-        print(f"\n{self.clinic_name}")
-        print(f"Samples: {num_samples}")
-        print("Local training...")
+        partition_label = "Non-IID" if str(partition_type).lower() in ["non_iid", "non-iid"] else "IID"
 
-        train_loss, train_acc = train_local(
+        algorithm = str(config.get("algorithm", "fedavg")).lower()
+        mu = float(config.get("proximal_mu", config.get("mu", 0.0)))
+        is_fedprox = (algorithm == "fedprox") or (mu > 0.0)
+
+        if is_fedprox:
+            print(f"\n{self.clinic_name}")
+            print(f"Partition: {partition_label}")
+            print("Algorithm: FedProx")
+            print(f"Samples: {num_samples}")
+            print(f"No DR: {no_dr_count}")
+            print(f"DR: {dr_count}")
+            print(f"Proximal Mu: {mu}")
+            print("Local training...")
+        else:
+            print(f"\n{self.clinic_name}")
+            print(f"Partition: {partition_label}")
+            print(f"Samples: {num_samples}")
+            print(f"No DR: {no_dr_count}")
+            print(f"DR: {dr_count}")
+            print("Local training...")
+
+        train_loss, train_acc, cls_loss, prox_contrib = train_local(
             self.model,
             train_loader,
             epochs=local_epochs,
             lr=1e-4,
             weight_decay=1e-4,
+            mu=mu if is_fedprox else 0.0,
             device=self.device,
         )
 
-        print(f"Loss: {train_loss:.4f}")
-        print(f"Accuracy: {train_acc:.2f}%")
+        if is_fedprox:
+            print(f"Classification Loss: {cls_loss:.4f}")
+            print(f"Proximal Contribution: {prox_contrib:.4f}")
+            print(f"Total Loss: {train_loss:.4f}")
+            print(f"Accuracy: {train_acc:.2f}%")
+        else:
+            print(f"Loss: {train_loss:.4f}")
+            print(f"Accuracy: {train_acc:.2f}%")
 
         if self.device.type == "cuda":
             torch.cuda.empty_cache()

@@ -1,0 +1,7 @@
+metric,fedavg_iid_5rounds,fedavg_non_iid_5rounds,difference
+Accuracy (%),91.09,91.82,0.73
+Precision,0.9049,0.927,0.0221
+Sensitivity,0.9211,0.9104,-0.0107
+Specificity,0.9004,0.9262,0.0258
+F1 Score,0.913,0.9186,0.0056
+ROC-AUC,0.9759,0.9739,-0.002

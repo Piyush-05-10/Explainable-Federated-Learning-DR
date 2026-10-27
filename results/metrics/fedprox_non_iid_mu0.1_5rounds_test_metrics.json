@@ -1,0 +1,20 @@
+{
+    "test_images": 550,
+    "test_loss": 0.2896,
+    "accuracy": 92.18,
+    "precision": 0.9245,
+    "sensitivity": 0.9211,
+    "specificity": 0.9225,
+    "f1_score": 0.9228,
+    "roc_auc": 0.9752,
+    "tn": 250,
+    "fp": 21,
+    "fn": 22,
+    "tp": 257,
+    "algorithm": "FedProx",
+    "federated_rounds": 5,
+    "local_epochs": 1,
+    "number_of_clients": 5,
+    "partition_type": "non_iid",
+    "proximal_mu": 0.1
+}
