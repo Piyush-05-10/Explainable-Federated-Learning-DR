@@ -1,0 +1,7 @@
+image_id,true_label,predicted_label,predicted_probability,outcome_type,model,algorithm,partition,proximal_mu,target_layer
+ae2c3f6312ef,0,0,0.796,True Negative,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
+ef8c39eb9157,0,0,0.7431,True Negative,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
+44e951e45dca,1,1,0.7495,True Positive,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
+e499434242cc,1,1,0.9146,True Positive,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
+7ad0c4975890,0,1,0.6599,False Positive,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
+a5c9a8c726b2,1,0,0.6413,False Negative,EfficientNet-B0,FedProx,Non-IID,0.1,model.features[-1]
