@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fl-dr"
+version = "1.0.0"
+description = "Explainable Federated Learning Framework for Diabetic Retinopathy Screening Across Rural Health Centers"
+dependencies = [
+    "flwr[simulation]>=1.13.0",
+    "torch",
+    "torchvision",
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "scikit-learn",
+    "pillow",
+]
+
+[tool.flwr.app]
+publisher = "piyush"
+
+[tool.flwr.app.components]
+serverapp = "src.federated.server_app:app"
+clientapp = "src.federated.client_app:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 3
+local-epochs = 1
+batch-size = 16
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 5
+options.backend.client-resources.num-cpus = 2
+options.backend.client-resources.num-gpus = 1.0

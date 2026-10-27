@@ -1,0 +1,7 @@
+metric,centralized,fedavg_3rounds,fedavg_5rounds
+Accuracy (%),94.0,90.36,91.09
+Precision,0.9362,0.9094,0.9049
+Sensitivity,0.9462,0.8996,0.9211
+Specificity,0.9336,0.9077,0.9004
+F1 Score,0.9412,0.9045,0.913
+ROC-AUC,0.9913,0.9696,0.9759

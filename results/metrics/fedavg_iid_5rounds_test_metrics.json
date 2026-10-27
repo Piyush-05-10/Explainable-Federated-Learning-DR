@@ -1,0 +1,18 @@
+{
+    "test_images": 550,
+    "test_loss": 0.2437,
+    "accuracy": 91.09,
+    "precision": 0.9049,
+    "sensitivity": 0.9211,
+    "specificity": 0.9004,
+    "f1_score": 0.913,
+    "roc_auc": 0.9759,
+    "tn": 244,
+    "fp": 27,
+    "fn": 22,
+    "tp": 257,
+    "federated_rounds": 5,
+    "local_epochs": 1,
+    "number_of_clients": 5,
+    "partition_type": "IID"
+}

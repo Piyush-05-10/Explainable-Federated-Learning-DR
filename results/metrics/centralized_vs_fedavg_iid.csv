@@ -1,0 +1,7 @@
+metric,centralized,fedavg_iid,difference
+Accuracy (%),94.0,90.36,-3.64
+Precision,0.9362,0.9094,-0.0268
+Sensitivity,0.9462,0.8996,-0.0466
+Specificity,0.9336,0.9077,-0.0259
+F1 Score,0.9412,0.9045,-0.0367
+ROC-AUC,0.9913,0.9696,-0.0217
