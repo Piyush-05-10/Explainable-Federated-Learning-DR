@@ -1,0 +1,7 @@
+id_code,category,actual_label,actual_class,predicted_label,predicted_class,dr_probability,prediction_correct,gradcam_file
+ae2c3f6312ef,True Negative,0,No DR,0,No DR,1.32,True,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/ae2c3f6312ef_gradcam.png
+ef8c39eb9157,True Negative,0,No DR,0,No DR,0.82,True,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/ef8c39eb9157_gradcam.png
+44e951e45dca,True Positive,1,DR,1,DR,99.66,True,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/44e951e45dca_gradcam.png
+e499434242cc,True Positive,1,DR,1,DR,99.91,True,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/e499434242cc_gradcam.png
+7ad0c4975890,False Positive,0,No DR,1,DR,55.25,False,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/7ad0c4975890_gradcam.png
+310c27067ac0,False Negative,1,DR,0,No DR,39.75,False,C:/Users/piyus/Desktop/Projects/MAJOR PROJECT/results/plots/gradcam/310c27067ac0_gradcam.png
